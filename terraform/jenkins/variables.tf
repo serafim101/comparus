@@ -11,7 +11,7 @@ variable "jen_pass" {
 }
 
 variable "job_folder" {
-  default = "camparus"
+  default = "comparus"
 }
 
 variable "jen_job_name" {

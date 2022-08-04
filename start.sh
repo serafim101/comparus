@@ -65,6 +65,8 @@ helm install jenkins -n jenkins -f $PWD/values.yaml jenkinsci/jenkins --wait
 
 kubectl apply -f $PWD/jenkins-ingress.yaml --wait
 
+sleep 5
+
 JEN_PASS=$(kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo)
 JEN_USER=$(kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-username && echo)
 IP=$(minikube ip)
@@ -72,8 +74,6 @@ IP=$(minikube ip)
 cat <<EOF | sudo tee -a /etc/hosts
 ${IP} ${JENKINS_DOMAIN}
 EOF
-
-sleep 5
 
 echo "Deploy jenkins job to server with terraform"
 terraform -chdir=$PWD/terraform/jenkins init
