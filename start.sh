@@ -36,7 +36,7 @@ sleep 5
 
 echo "Deploy jenkins job to server with terraform"
 terraform -chdir=$PWD/terraform/jenkins init
-sudo terraform -chdir=$PWD/terraform/jenkins apply -var "jenkins_url=http://$JENKINS_DOMAIN" -var "jen_user=$JEN_USER" -var "jen_pass=$JEN_PASS" -auto-approve
+terraform -chdir=$PWD/terraform/jenkins apply -var "jenkins_url=http://$JENKINS_DOMAIN" -var "jen_user=$JEN_USER" -var "jen_pass=$JEN_PASS" -auto-approve
 
 echo ""
 echo "Ingress URL: http://$JENKINS_DOMAIN"
