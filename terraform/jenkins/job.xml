@@ -1,0 +1,44 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1182.v60a_e6279b_579">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2097.v33db_b_de764b_e">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description>${description}</description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2692.v76b_089ccd026">
+    <script>pipeline {
+	agent any
+	stages {
+		stage(&apos;Clone Git repo&apos;) {
+			steps {
+				git(url: &apos;https://github.com/serafim101/comparus.git&apos;, branch: &apos;main&apos;)
+			}
+		}
+		stage(&apos;Build Docker image&apos;) {
+			steps {
+				script {
+					def app = docker.build(&quot;comparus/nginx:test&quot;, &quot;./nginx/&quot;)
+				}
+			}
+		}
+		stage(&apos;k8s deploy&apos;) {
+			steps {
+				script {
+					sh &apos;kubectl apply -f ./k8s-app/nginx.yaml&apos;
+				}
+			}
+		}
+	}
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
