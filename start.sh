@@ -142,8 +142,3 @@ case $1 in
 	terraform ) deploy_terraform;;
 	* ) usage;;
 esac
-
-if [ "$#" -eq 0 ]
-  then
-    usage
-fi
