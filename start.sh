@@ -12,12 +12,13 @@ usage() {
 }
 
 k8s_prepair() {
-	if ! [[ -d "/usr/local/bin/"]]
+	if ! [ -d "/usr/local/bin/" ]
 	then
 		sudo mkdir -p /usr/local/bin/
 	fi
 
-	if [[ $(minikube version) ]]
+	VER=$(minikube version)
+	if [ "${VER}" ]
 	then
 		echo "Minikube is installed in system"
 	else
@@ -27,7 +28,8 @@ k8s_prepair() {
 		sudo mv minikube /usr/local/bin/
 	fi
 
-	if [[ $(kubectl version --short) ]]
+	VER=$(kubectl version --short)
+	if [ "${VER}" ]
 	then
 		echo "Kubectl is installed in system"
 	else
@@ -37,7 +39,8 @@ k8s_prepair() {
 		sudo mv ./kubectl /usr/local/bin/kubectl
 	fi
 
-	if [[ $(terraform version) ]]
+	VER=$(terraform version)
+	if [ "${VER}" ]
 	then
 		echo "Terraform is installed in system"
 	else
@@ -57,7 +60,8 @@ k8s_prepair() {
 	minikube ssh -- "sudo chown -R 1000:1000 /data/jenkins-volume"
 	minikube ssh -- "sudo chmod 666 /var/run/docker.sock"
 
-	if [[ $(cat /etc/hosts | grep "$JENKINS_DOMAIN" | awk '{print $2}') == "$JENKINS_DOMAIN" ]]
+	HOSTS=$(cat /etc/hosts | grep "$JENKINS_DOMAIN" | awk '{print $2}')
+	if [ -z ${HOSTS} ]
 	then
 		IP=$(minikube ip)
 		echo "Add minikube ip-address: $IP to /etc/hosts, for associate IP with INGRESS DOMAIN"
@@ -74,7 +78,9 @@ deploy_helm() {
 	kubectl apply -f $PWD/k8s/jenkins-volume.yaml
 	kubectl apply -f $PWD/k8s/jenkins-sa.yaml
 
-	if [[ $(helm version) ]]; then
+	VER=$(helm version)
+	if [ "${VER}" ]
+	then
 		echo "Helm is installed in system"
 	else
 		echo "Helm is not installed in system. Installing"
