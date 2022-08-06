@@ -12,7 +12,7 @@ usage() {
 }
 
 k8s_prepair() {
-	if ![[ -d "/usr/local/bin/"]]; then
+	if ! [[ -d "/usr/local/bin/"]]; then
 		sudo mkdir -p /usr/local/bin/
 	fi
 
@@ -69,6 +69,16 @@ deploy_helm() {
 	kubectl apply -f $PWD/k8s/jenkins-volume.yaml
 	kubectl apply -f $PWD/k8s/jenkins-sa.yaml
 
+	if [[ $(helm version) ]]; then
+		echo "Helm is installed in system"
+	else
+		echo "Helm is not installed in system. Installing"
+		curl -L https://get.helm.sh/helm-v3.9.2-linux-amd64.tar.gz -o helm.tar.gz
+		tar xf helm.tar.gz
+		sudo mv linux-amd64/helm /usr/local/bin/
+	fi
+
+
 	helm repo add jenkinsci https://charts.jenkins.io
 	helm repo update
 	helm install jenkins -n jenkins -f $PWD/k8s/values.yaml jenkinsci/jenkins --wait
@@ -80,15 +90,6 @@ deploy_helm() {
 	JEN_PASS=$(kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo)
 	JEN_USER=$(kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-username && echo)
 	IP=$(minikube ip)
-
-	if [[ $(helm version) ]]; then
-		echo "Helm is installed in system"
-	else
-		echo "Helm is not installed in system. Installing"
-		curl -L https://get.helm.sh/helm-v3.9.2-linux-amd64.tar.gz -o helm.tar.gz
-		tar xf helm.tar.gz
-		sudo mv linux-amd64/helm /usr/local/bin/
-	fi
 
 	echo "Deploy jenkins job to server with terraform"
 	terraform -chdir=$PWD/terraform/jenkins init
