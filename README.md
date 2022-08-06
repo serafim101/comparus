@@ -12,5 +12,7 @@ Working tested on clean ubuntu 20.04
 * First you need to download the git repo: `git clone https://github.com/serafim101/comparus.git`
 * Next, you need to go to the directory with the repository: `cd comparus`
 * Then you need to execute the script that prepares VM for the deployment of the cluster and all its components: `sh vm_prepair.sh`
-* After the preparation of the VM is completed, you need to run a script that will install all the necessary dependencies for deployment and perform the process of deploying the cluster and all its components: `sh start.sh`
+* After the preparation of the VM is completed, you need to run a script that will install all the necessary dependencies for deployment and perform the process of deploying the cluster and all its components:
+1. `sh start.sh helm`
+2. `sh start.sh terraform`
 * An important note, at the end, a jenkins job is created, which does not start automatically. I, unfortunately, did not find a workable way to run it from terraform
