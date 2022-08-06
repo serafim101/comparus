@@ -12,11 +12,13 @@ usage() {
 }
 
 k8s_prepair() {
-	if ! [[ -d "/usr/local/bin/"]]; then
+	if ! [[ -d "/usr/local/bin/"]]
+	then
 		sudo mkdir -p /usr/local/bin/
 	fi
 
-	if [[ $(minikube version) ]]; then
+	if [[ $(minikube version) ]]
+	then
 		echo "Minikube is installed in system"
 	else
 		echo "Minikube is not present in system. Installing"
@@ -25,7 +27,8 @@ k8s_prepair() {
 		sudo mv minikube /usr/local/bin/
 	fi
 
-	if [[ $(kubectl version --short) ]]; then
+	if [[ $(kubectl version --short) ]]
+	then
 		echo "Kubectl is installed in system"
 	else
 		echo "Kubectl is not installed in system. Installing"
@@ -34,7 +37,8 @@ k8s_prepair() {
 		sudo mv ./kubectl /usr/local/bin/kubectl
 	fi
 
-	if [[ $(terraform version) ]]; then
+	if [[ $(terraform version) ]]
+	then
 		echo "Terraform is installed in system"
 	else
 		echo "Terraform is not installed in system. Installing"
@@ -53,7 +57,8 @@ k8s_prepair() {
 	minikube ssh -- "sudo chown -R 1000:1000 /data/jenkins-volume"
 	minikube ssh -- "sudo chmod 666 /var/run/docker.sock"
 
-	if [[ $(cat /etc/hosts | grep "$JENKINS_DOMAIN" | awk '{print $2}') == "$JENKINS_DOMAIN" ]]; then
+	if [[ $(cat /etc/hosts | grep "$JENKINS_DOMAIN" | awk '{print $2}') == "$JENKINS_DOMAIN" ]]
+	then
 		IP=$(minikube ip)
 		echo "Add minikube ip-address: $IP to /etc/hosts, for associate IP with INGRESS DOMAIN"
 		cat <<EOF | sudo tee -a /etc/hosts
