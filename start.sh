@@ -121,7 +121,7 @@ deploy_terraform() {
 
 	sleep 5
 
-	terraform -chdir=$PWD/terraform/k8s apply -auto-approve
+	terraform -chdir=$PWD/terraform/k8s apply -var "ingress_domain=$JENKINS_DOMAIN" -auto-approve
 	JEN_URL=$(terraform -chdir=$PWD/terraform/k8s output -raw jenkins_url)
 	JEN_USER=$(terraform -chdir=$PWD/terraform/k8s output jenkins_user)
 	JEN_PASS=$(terraform -chdir=$PWD/terraform/k8s output jenkins_password)
