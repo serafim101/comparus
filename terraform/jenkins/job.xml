@@ -31,7 +31,7 @@
 		stage(&apos;k8s deploy&apos;) {
 			steps {
 				script {
-					sh &apos;kubectl apply -f ./k8s-app/nginx.yaml&apos;
+					sh &apos;kubectl apply -f ./k8s/app/nginx.yaml&apos;
 				}
 			}
 		}

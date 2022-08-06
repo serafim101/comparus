@@ -1,8 +1,8 @@
 # Comparus test work
 
 Test task from COMPARUS. The solution consists of the following set of components:
-1. Helm chart to install jenkins server
-2. A set of manifests for kubernetes with a description of roles and pv
+1. There are 2 ways to install jenkins server to choose from, use helm chart and an additional set of manifests, or use terraform which will deploy the entire k8s infrastructure
+2. A set of manifests for kubernetes with a description of roles and pv, when installing jenkins using helm
 3. terraform to create a task in jenkins
 
 ### Instruction for use

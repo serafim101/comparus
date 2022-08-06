@@ -29,7 +29,7 @@ resource "kubernetes_cluster_role" "jenkins_cr" {
   }
 }
 
-resource "kubernetes_role_binding" "jenkins_rb" {
+resource "kubernetes_cluster_role_binding" "jenkins_rb" {
   metadata {
     annotations = {
       "rbac.authorization.kubernetes.io/autoupdate" = "true"

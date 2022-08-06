@@ -262,7 +262,7 @@ variable "svc_target_port_controller" {
 }
 
 variable "svc_nodeport_controller" {
-  default = "30080"
+  default = "30088"
 }
 
 
