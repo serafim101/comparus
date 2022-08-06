@@ -37,8 +37,7 @@ resource "kubernetes_cluster_role_binding" "jenkins_rb" {
     labels = {
       "kubernetes.io/bootstrapping" = "rbac-defaults"
     }
-    name      = var.rb_name
-    namespace = kubernetes_namespace.jenkins_ns.metadata[0].name
+    name = var.rb_name
   }
 
   role_ref {

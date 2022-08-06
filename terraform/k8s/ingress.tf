@@ -23,4 +23,6 @@ resource "kubernetes_ingress_v1" "jenkins-ingress" {
       }
     }
   }
+
+  depends_on = [kubernetes_stateful_set.controller]
 }
